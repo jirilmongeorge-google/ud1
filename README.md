@@ -17,5 +17,5 @@ The ETL pipeline implemented in the etl.py will make sure the data transformaito
 - test.ipynb - sample notebook to analyze the data in all the tables, especially analyzing the songplays table.
 
 # Example queries and results for song play analysis.
-- Analyze songs of a given artist
+- Analyze songs of a given artist - 
 SELECT * FROM songplays where artist_id = 'AR5KOSW1187FB35FF4'
