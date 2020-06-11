@@ -1,4 +1,4 @@
-# Purpose
+# Project 1 - Purpose
 As we know Sparkify wants to analyze the data they've been collecting on songs and user activity on their new music streaming app. 
 Inorder to analyze the data better, they want to bring the user activity log data and the song datastored as semi-structure JSON files to a relational database structure.  having their song and log data on a relational database such as postgres would help them performa better analytics and generate reports. 
 
