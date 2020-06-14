@@ -6,6 +6,17 @@ from sql_queries import *
 from datetime import datetime
 
 
+"""
+Description: This function can be used to read the song files in the filepath (data/song_data)
+to get the song and artist informaiton and used to populate the songs and artists dim tables.
+
+Arguments:
+    cur: the cursor object. 
+    filepath: log data file path. 
+
+Returns:
+    None
+"""
 def process_song_file(cur, filepath):
     # open song file
     df = pd.read_json(filepath, lines=True)
@@ -21,7 +32,17 @@ def process_song_file(cur, filepath):
     artist_data = step2.values[0].tolist()
     cur.execute(artist_table_insert, artist_data)
 
+"""
+Description: This function can be used to read the file in the filepath (data/log_data)
+to get the user and time info and used to populate the users and time dim tables.
 
+Arguments:
+    cur: the cursor object. 
+    filepath: log data file path. 
+
+Returns:
+    None
+"""
 def process_log_file(cur, filepath):
     # open log file
     df = pd.read_json(filepath, lines=True)
@@ -67,7 +88,19 @@ def process_log_file(cur, filepath):
         songplay_data = (pd.Timestamp(pd.to_datetime(row.ts, unit='ms')), row.userId, row.level, songid, artistid,  row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
+"""
+Description: This function manages the ETL process and calls the other functions 
+process_song_file and process_log_file
 
+Arguments:
+    cur: the cursor object. 
+    conn: database connection
+    filepath: log data file path.
+    func: funciton to execute
+
+Returns:
+    None
+"""
 def process_data(cur, conn, filepath, func):
     # get all files matching extension from directory
     all_files = []
@@ -86,7 +119,20 @@ def process_data(cur, conn, filepath, func):
         conn.commit()
         print('{}/{} files processed.'.format(i, num_files))
 
+"""
+Description: The main function controls the execution of this python file. 
+This funciton creates a database connection, invokes the process_data fucniton to process the songs and logs data, 
+and also closes the database connection atlast.
 
+Arguments:
+    cur: the cursor object. 
+    conn: database connection
+    filepath: log data file path.
+    func: function to execute
+
+Returns:
+    None
+"""
 def main():
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
